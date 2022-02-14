@@ -13,7 +13,13 @@
         @auth
             <h2>Ciao {{Auth::user()->name}}</h2>
             <a class="btn btn-secondary" href="{{route('logout')}}">Logout</a>
+
+            <h3 class="mt-2">La lista dei videogiochi</h3>
+            <div id="app">
+                <videogames-list></videogames-list>
+            </div>
         @else
+            <h2>Ciao! Per vedere e modificare la lista di videogiochi, accedi o registrati.</h2>
             <h3>Accedi</h3>
             <form action="{{asset('login')}}" method="post">
                 @method('post')
