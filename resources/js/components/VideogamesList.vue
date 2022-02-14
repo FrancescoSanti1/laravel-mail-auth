@@ -9,7 +9,8 @@
                     </div>
 
                     <div class="card-body">
-                        <div>Voto: {{videogame.rating}}</div>
+                        <div class="my-2">Voto: {{videogame.rating}}</div>
+                        <div @click="deleteVideogame(videogame.id)" class="btn btn-danger my-2">Elimina videogioco</div>
                     </div>
                 </div>
             </div>
@@ -33,6 +34,26 @@
             .catch(errorMessage => {
                 console.log('Errore:', errorMessage);
             });
+        },
+        methods: {
+            deleteVideogame(id) {
+                axios
+                .get(`api/videogame/delete/${id}`)
+                .then(result => {
+                    const deletedVideogame = result.data;
+                    this.deleteFromVue(deletedVideogame);
+                })
+                .catch(errorMessage => {
+                    console.log("Errore:", errorMessage);
+                })
+            },
+            deleteFromVue(deletedVideogame) {
+                this.videogames.forEach((videogame, index) => {
+                    if(videogame.id === deletedVideogame.id) {
+                        this.videogames.splice(index, 1);
+                    }
+                });
+            }
         }
     }
 </script>

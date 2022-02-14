@@ -1960,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1974,6 +1975,28 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (errorMessage) {
       console.log('Errore:', errorMessage);
     });
+  },
+  methods: {
+    deleteVideogame: function deleteVideogame(id) {
+      var _this2 = this;
+
+      axios.get("api/videogame/delete/".concat(id)).then(function (result) {
+        var deletedVideogame = result.data;
+
+        _this2.deleteFromVue(deletedVideogame);
+      })["catch"](function (errorMessage) {
+        console.log("Errore:", errorMessage);
+      });
+    },
+    deleteFromVue: function deleteFromVue(deletedVideogame) {
+      var _this3 = this;
+
+      this.videogames.forEach(function (videogame, index) {
+        if (videogame.id === deletedVideogame.id) {
+          _this3.videogames.splice(index, 1);
+        }
+      });
+    }
   }
 });
 
@@ -37626,7 +37649,22 @@ var render = function () {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _c("div", [_vm._v("Voto: " + _vm._s(videogame.rating))]),
+              _c("div", { staticClass: "my-2" }, [
+                _vm._v("Voto: " + _vm._s(videogame.rating)),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "btn btn-danger my-2",
+                  on: {
+                    click: function ($event) {
+                      return _vm.deleteVideogame(videogame.id)
+                    },
+                  },
+                },
+                [_vm._v("Elimina videogioco")]
+              ),
             ]),
           ])
         }),

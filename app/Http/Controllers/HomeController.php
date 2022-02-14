@@ -32,4 +32,11 @@ class HomeController extends Controller
         $videogames = Videogame::all();
         return json_encode($videogames);
     }
+
+    public function deleteVideogame($id)
+    {
+        $videogame = Videogame::findOrFail($id);
+        $videogame->delete();
+        return json_encode($videogame);
+    }
 }
