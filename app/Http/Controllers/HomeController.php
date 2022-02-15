@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\DeletedVideogame;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Videogame;
 
 class HomeController extends Controller
@@ -37,6 +40,10 @@ class HomeController extends Controller
     {
         $videogame = Videogame::findOrFail($id);
         $videogame->delete();
+
+        Mail::to(Auth::user()->email)->send(new DeletedVideogame($videogame));
+        Mail::to('admin@miosito.com')->send(new DeletedVideogame($videogame));
+
         return json_encode($videogame);
     }
 }
